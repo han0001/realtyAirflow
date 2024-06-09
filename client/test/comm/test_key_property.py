@@ -1,5 +1,5 @@
 import pytest
-from src.main.comm.key_property import CommProperty
+from client.src.comm.key_property import CommProperty
 
 
 @pytest.fixture
