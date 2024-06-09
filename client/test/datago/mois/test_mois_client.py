@@ -20,6 +20,7 @@ def test_get_si_do(mois_client):
     si_do_list = []
     si_gun_gu_list = []
     eup_myeon_dong_list = []
+    ri_list = []
 
     page_no = 1
     num_of_rows = 1000
@@ -35,6 +36,8 @@ def test_get_si_do(mois_client):
                 si_gun_gu_list.append(item)
             if item.si_gun_gu_code != "000" and item.eup_myeon_dong_code != "000" and item.ri_code == "00":
                 eup_myeon_dong_list.append(item)
+            if item.si_gun_gu_code != "000" and item.eup_myeon_dong_code != "000" and item.ri_code != "00":
+                ri_list.append(item)
 
         if len(items) != num_of_rows:
             break
@@ -52,6 +55,10 @@ def test_get_si_do(mois_client):
     data_dicts = [response.dict(by_alias=True) for response in eup_myeon_dong_list]
     df = pd.DataFrame(data_dicts)
     df.to_csv("eup_myeon_dong_list.csv", index=False, encoding='utf-8-sig')
+
+    data_dicts = [response.dict(by_alias=True) for response in ri_list]
+    df = pd.DataFrame(data_dicts)
+    df.to_csv("ri_list.csv", index=False, encoding='utf-8-sig')
 
     # print("")
     # print("##시도##")
