@@ -8,7 +8,7 @@ Base = declarative_base()
 class LegalRegionEmd(Base):
     __tablename__ = 'tb_legal_region_emd'
 
-    id = Column(Integer, primary_key=True, nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     sgg_id = Column(Integer, nullable=False)
     emd_code = Column(String(10), nullable=True)
     emd_name = Column(String(64), nullable=True)
