@@ -16,6 +16,6 @@ class SessionFactory(SingletonInstance):
         self.engine.execute("select 1")
 
     def get_session(self):
-        return self.session
+        return self.session()
 
 

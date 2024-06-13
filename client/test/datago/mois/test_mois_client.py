@@ -4,6 +4,10 @@ import pytest
 from client.src.datago.mois.mois_client import MoisClient
 import pandas as pd
 
+from domain.src.configuration.session_factory import SessionFactory
+from domain.src.module.region.model.legal_region_sido import LegalRegionSido
+
+
 @pytest.fixture
 def mois_client():
     return MoisClient()
@@ -16,7 +20,8 @@ def test_legal_district(mois_client):
     for item in mois_client.get_legal_district(page_no, num_of_rows):
         print(item)
 
-def test_get_si_do(mois_client):
+
+def test_region_response_to_csv(mois_client):
     si_do_list = []
     si_gun_gu_list = []
     eup_myeon_dong_list = []
@@ -27,7 +32,7 @@ def test_get_si_do(mois_client):
 
     while(True):
         items = mois_client.get_legal_district(page_no, num_of_rows)
-        time.sleep(1)
+        time.sleep(0.5)
 
         for item in items:
             if item.si_gun_gu_code == "000":
@@ -60,13 +65,36 @@ def test_get_si_do(mois_client):
     df = pd.DataFrame(data_dicts)
     df.to_csv("ri_list.csv", index=False, encoding='utf-8-sig')
 
-    # print("")
-    # print("##시도##")
-    # for si_do in si_do_list:
-    #     print(si_do.locat_address_name)
-    # print("##시군구##")
-    # for si_gun_gu in si_gun_gu_list:
-    #     print(si_gun_gu.locat_address_name)
-    # print("##읍면동##")
-    # for eup_myeon_dong in eup_myeon_dong_list:
-    #     print(eup_myeon_dong.locat_address_name)
+
+def test_get_sido(mois_client):
+    si_do_list = []
+
+    page_no = 1
+    num_of_rows = 1000
+
+    # while True:
+    items = mois_client.get_legal_district(page_no, num_of_rows)
+    time.sleep(0.5)
+
+    for item in items:
+        if item.si_gun_gu_code == "000":
+            si_do_list.append(item)
+
+    # if len(items) != num_of_rows:
+    #     break
+
+    page_no = page_no + 1
+
+
+    for si_do in si_do_list:
+        aa = LegalRegionSido(
+            sido_code=si_do.si_do_code,
+            sido_name=si_do.locat_low_name,
+            legal_region_code=si_do.legal_district_code,
+            address_name=si_do.locat_address_name
+        )
+
+        print(aa)
+
+    ssesion = SessionFactory.instance().get_session()
+    ssesion.add(aa)

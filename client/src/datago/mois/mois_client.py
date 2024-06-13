@@ -2,6 +2,7 @@ import requests
 from client.src.comm.key_property import CommProperty
 from client.src.datago.mois.response.legal_district_response import LegalDistrictResponse
 
+
 class MoisClient:
     """
     행정안전부 클라이언트 (Ministry of the Interior and Safety : MOIS)
@@ -9,7 +10,7 @@ class MoisClient:
     def __init__(self):
         self.service_key = CommProperty().get_datago_servicekey()
 
-    def get_legal_district(self, page_no, num_of_rows) -> list[LegalDistrictResponse]:
+    def get_legal_district(self, page_no, num_of_rows):
         """
         행정안전부_행정표준코드_법정동코드
         https://www.data.go.kr/data/15077871/openapi.do
