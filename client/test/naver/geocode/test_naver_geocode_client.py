@@ -1,4 +1,5 @@
 import concurrent
+import time
 
 import pytest
 from geoalchemy2 import Geometry, WKTElement
@@ -86,6 +87,7 @@ def test_update_all_ri_one_xy(naver_geocode_client):
     ri_entity_list = session.query(LegalRegionRi).filter(LegalRegionRi.center_location == None).all()
 
     for ri_entity in ri_entity_list:
+        time.sleep(0.5)
         search_response = naver_geocode_client.get_geocode_one(ri_entity.address_name)
         ri_entity.center_location = WKTElement(f'POINT({search_response.x} {search_response.y})')
         session.commit()

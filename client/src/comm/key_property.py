@@ -18,3 +18,6 @@ class CommProperty:
 
     def get_naver_client_secret(self):
         return self.properties.get('NAVER', 'CLIENT_SECRET')
+
+    def get_vworld_api_key(self):
+        return self.properties.get('VWORLD', 'API_KEY')
